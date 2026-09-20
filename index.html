@@ -1,309 +1,726 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="h-full bg-slate-900 text-slate-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>사림방범대 - AI MARKET PLACE (창원 산단 B2B)</title>
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --bg-light: #f1f5f9;
-            --card-bg: #ffffff;
-            --border: #e2e8f0;
-            --text-dark: #0f172a;
-            --text-muted: #64748b;
-            --success: #10b981;
-            --warning: #f59e0b;
+    <title>사림방범대 | AI MARKET PLACE - 창원 산단 B2B 공급망 최적화</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js for ESG & Supply Analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        eco: {
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            900: '#064e3b',
+                        }
+                    }
+                }
+            }
         }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; }
-        body { background-color: var(--bg-light); color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; }
-
-        /* Header */
-        header { background: #0f172a; color: white; padding: 1.1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--primary); }
-        .logo-group { display: flex; align-items: center; gap: 12px; }
-        .logo { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.5px; color: #ffffff; }
-        .logo span { color: #60a5fa; }
-        .badge-team { background: #3b82f6; color: white; font-size: 0.75rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
-        .security-badge { font-size: 0.82rem; background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid #10b981; padding: 6px 14px; border-radius: 20px; display: flex; align-items: center; gap: 6px; }
-
-        .container { max-width: 1440px; margin: 0 auto; padding: 24px; width: 100%; flex: 1; display: flex; flex-direction: column; gap: 20px; }
-
-        /* KPI Dashboard Cards */
-        .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-        .kpi-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 18px 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; flex-direction: column; gap: 6px; }
-        .kpi-label { font-size: 0.825rem; color: var(--text-muted); font-weight: 600; }
-        .kpi-value { font-size: 1.6rem; font-weight: 800; color: var(--text-dark); }
-        .kpi-sub { font-size: 0.75rem; color: var(--success); font-weight: 600; display: flex; align-items: center; gap: 4px; }
-
-        /* Main Content Layout */
-        .main-layout { display: grid; grid-template-columns: 340px 1fr; gap: 20px; }
-
-        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 22px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); }
-        .card-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 18px; color: var(--text-dark); display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
-
-        /* Form Controls */
-        .form-group { margin-bottom: 16px; }
-        label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 6px; color: #334155; }
-        input, select { width: 100%; padding: 11px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 0.9rem; background: #f8fafc; transition: all 0.2s; }
-        input:focus, select:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-        button.btn-primary { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(37,99,235,0.2); }
-        button.btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
-
-        /* Pipeline Visualizer */
-        .pipeline-status { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
-        .step { padding: 14px; background: white; border-radius: 10px; font-size: 0.825rem; text-align: center; border: 1px solid var(--border); box-shadow: 0 1px 2px rgba(0,0,0,0.02); }
-        .step.active { background: #eff6ff; border-color: #3b82f6; font-weight: 700; color: #1e40af; }
-        .step-num { font-size: 0.75rem; color: #3b82f6; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; display: block; }
-
-        /* Results Grid */
-        .match-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-        .match-card { border: 1px solid var(--border); border-radius: 12px; padding: 20px; background: white; position: relative; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.2s; }
-        .match-card:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.06); }
-        .match-card.top1 { border: 2px solid #3b82f6; background: #f8fafc; }
-        
-        .badge-rank { position: absolute; top: -12px; right: 16px; background: #3b82f6; color: white; font-size: 0.75rem; padding: 4px 12px; border-radius: 20px; font-weight: 800; box-shadow: 0 2px 4px rgba(59,130,246,0.3); }
-        .match-card.top1 .badge-rank { background: #2563eb; }
-
-        .card-header-type { font-size: 1rem; font-weight: 800; color: #0f172a; margin-bottom: 6px; }
-        .score-tag { font-size: 0.9rem; color: var(--primary); font-weight: 800; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
-
-        /* Progress Bar for Supply Split */
-        .progress-container { margin: 12px 0; background: #e2e8f0; border-radius: 6px; height: 10px; overflow: hidden; display: flex; }
-        .progress-bar { height: 100%; transition: width 0.5s ease; }
-        .bg-p1 { background: #2563eb; }
-        .bg-p2 { background: #10b981; }
-
-        .supplier-list { font-size: 0.85rem; color: #334155; line-height: 1.6; margin-bottom: 14px; }
-        .supplier-item { padding: 6px 0; border-bottom: 1px dashed #e2e8f0; display: flex; justify-content: space-between; }
-
-        .eco-box { background: #f0fdf4; border: 1px solid #bbf7d0; padding: 10px; border-radius: 8px; font-size: 0.8rem; color: #166534; margin-bottom: 16px; }
-
-        .action-btn { background: #059669; color: white; border: none; padding: 11px; border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; width: 100%; transition: 0.2s; }
-        .action-btn:hover { background: #047857; }
-
-        /* Security Audit Log Console */
-        .sec-panel { font-family: 'Courier New', Courier, monospace; font-size: 0.78rem; background: #0f172a; color: #38bdf8; padding: 14px; border-radius: 8px; height: 170px; overflow-y: auto; margin-top: 10px; line-height: 1.5; }
-        .sec-line { margin-bottom: 4px; border-bottom: 1px dotted #1e293b; padding-bottom: 2px; }
-        .sec-line span { color: #f59e0b; }
+    </script>
+    <style>
+        /* Custom Scrollbar for Dashboard Panels */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+        .glow-effect {
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.15);
+        }
     </style>
 </head>
-<body>
+<body class="h-full font-sans antialiased bg-slate-950 text-slate-100 flex flex-col overflow-x-hidden">
 
-    <!-- Header -->
-    <header>
-        <div class="logo-group">
-            <div class="logo">AI MARKET PLACE <span>창원산단</span></div>
-            <div class="badge-team">사림방범대</div>
-        </div>
-        <div class="security-badge">
-            🔒 HTTPS / TLS 1.3 | OWASP 보안 검증 | Zero-Trust 데이터 마스킹 적용
+    <!-- TOP NAVIGATION HEADER -->
+    <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center font-black text-white text-xl shadow-lg shadow-brand-500/30">
+                    S
+                </div>
+                <div>
+                    <div class="flex items-center space-x-2">
+                        <span class="font-bold text-lg text-white tracking-tight">AI MARKET PLACE</span>
+                        <span class="text-xs bg-brand-500/20 text-brand-400 border border-brand-500/30 px-2 py-0.5 rounded-full font-semibold">사림방범대</span>
+                    </div>
+                    <p class="text-xs text-slate-400 hidden sm:block">창원 산단 B2B 제조 공급망 최적화 및 협업 매칭</p>
+                </div>
+            </div>
+
+            <!-- Security & System Status Indicators -->
+            <div class="flex items-center space-x-3 text-xs">
+                <div class="hidden md:flex items-center space-x-2 bg-slate-800/80 border border-slate-700/60 px-3 py-1.5 rounded-lg">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span class="text-slate-300 font-medium"><i class="fa-solid me-1 fa-shield-halved text-emerald-400"></i> HTTPS / TLS 1.3</span>
+                </div>
+                <div class="hidden lg:flex items-center space-x-2 bg-slate-800/80 border border-slate-700/60 px-3 py-1.5 rounded-lg">
+                    <span class="text-slate-300 font-medium"><i class="fa-solid fa-lock text-brand-400 me-1"></i> OWASP & RBAC</span>
+                </div>
+                <div class="bg-emerald-950/80 border border-emerald-600/40 text-emerald-300 px-3 py-1.5 rounded-lg font-mono flex items-center">
+                    <i class="fa-solid fa-check-circle me-1.5 text-emerald-400"></i>
+                    <span>Changwon Smart Green Active</span>
+                </div>
+            </div>
         </div>
     </header>
 
-    <div class="container">
-        <!-- Top KPI Dashboard -->
-        <div class="kpi-grid">
-            <div class="kpi-card">
-                <div class="kpi-label">창원 산단 가용 공장 수</div>
-                <div class="kpi-value">1,248 <span style="font-size:0.9rem; font-weight:normal;">개사</span></div>
-                <div class="kpi-sub">▲ 12개 신규 가입 (성산구 위주)</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-label">오늘 AI 매칭 성사 건수</div>
-                <div class="kpi-value">84 <span style="font-size:0.9rem; font-weight:normal;">건</span></div>
-                <div class="kpi-sub">▲ 전일 대비 +18.5%</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-label">평균 물류 탄소 절감율</div>
-                <div class="kpi-value">24.2 <span style="font-size:0.9rem; font-weight:normal;">%</span></div>
-                <div class="kpi-sub">🌱 창원시 탄소 배출권 지원 연계</div>
-            </div>
-            <div class="kpi-card">
-                <div class="kpi-label">시스템 보안 상태</div>
-                <div class="kpi-value" style="color:#10b981;">안전 (PASS)</div>
-                <div class="kpi-sub" style="color:#64748b;">RBAC 데이터 암호화 구동 중</div>
-            </div>
+    <!-- MAIN APPLICATION CONTAINER -->
+    <div class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col space-y-6">
+
+        <!-- Navigation Tabs -->
+        <div class="flex border-b border-slate-800 space-x-1 sm:space-x-4 overflow-x-auto scrollbar-none pb-1">
+            <button onclick="switchTab('matching')" id="tab-matching" class="tab-btn active border-b-2 border-brand-500 text-brand-400 font-semibold px-4 py-2.5 text-sm flex items-center space-x-2 whitespace-nowrap transition-colors">
+                <i class="fa-solid fa-microchip"></i>
+                <span>AI 3단계 매칭 파이프라인</span>
+            </button>
+            <button onclick="switchTab('marketplace')" id="tab-marketplace" class="tab-btn border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-medium px-4 py-2.5 text-sm flex items-center space-x-2 whitespace-nowrap transition-colors">
+                <i class="fa-solid fa-store"></i>
+                <span>잉여 자재 & 부품 마켓</span>
+            </button>
+            <button onclick="switchTab('security')" id="tab-security" class="tab-btn border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-medium px-4 py-2.5 text-sm flex items-center space-x-2 whitespace-nowrap transition-colors">
+                <i class="fa-solid fa-shield-virus"></i>
+                <span>B2B 안심 거래 & 보안 콘솔</span>
+            </button>
+            <button onclick="switchTab('esg')" id="tab-esg" class="tab-btn border-b-2 border-transparent text-slate-400 hover:text-slate-200 font-medium px-4 py-2.5 text-sm flex items-center space-x-2 whitespace-nowrap transition-colors">
+                <i class="fa-solid fa-leaf"></i>
+                <span>ESG & 탄소배출권 리포트</span>
+            </button>
         </div>
 
-        <!-- Main Workspace -->
-        <div class="main-layout">
-            <!-- Left: Request Form & Security Console -->
-            <div>
-                <div class="card">
-                    <div class="card-title">📦 다종 부품 수급 요청 입력</div>
-                    <form id="matchForm">
-                        <div class="form-group">
-                            <label>부품 규격 코드 (part_no)</label>
-                            <select id="partNo">
-                                <option value="KS-SUS304-2T">KS-SUS304-2T (스테인리스 판재)</option>
-                                <option value="KS-BOLT-M8">KS-BOLT-M8 (고강도 볼트)</option>
-                                <option value="KS-GEAR-A1">KS-GEAR-A1 (정밀 정삭 기어)</option>
+        <!-- TAB 1: AI MATCHING PIPELINE -->
+        <div id="view-matching" class="tab-view grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Left Panel: Form & Knapsack Config -->
+            <div class="lg:col-span-4 space-y-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl glow-effect">
+                    <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-4">
+                        <h2 class="font-bold text-white text-base flex items-center space-x-2">
+                            <i class="fa-solid fa-sliders text-brand-400"></i>
+                            <span>다종 부품 수급 요청</span>
+                        </h2>
+                        <span class="text-xs bg-slate-800 text-slate-400 px-2 py-1 rounded">창원산단 DB 연동</span>
+                    </div>
+
+                    <form id="matchingForm" onsubmit="event.preventDefault(); triggerAIMatching();" class="space-y-4">
+                        <!-- Part Specs Input -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1.5">부품 규격 코드 (part_no)</label>
+                            <div class="relative">
+                                <select id="partNo" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent">
+                                    <option value="KS-SUS304-2T">KS-SUS304-2T [스테인리스 판재 2T]</option>
+                                    <option value="KS-BOLT-M8">KS-BOLT-M8 [고강도 구조용 볼트]</option>
+                                    <option value="KS-GEAR-A1">KS-GEAR-A1 [정밀 정삭 기어 파트]</option>
+                                    <option value="KS-AL6061-T6">KS-AL6061-T6 [알루미늄 압출재]</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Quantity -->
+                        <div>
+                            <div class="flex justify-between items-center mb-1.5">
+                                <label class="block text-xs font-semibold text-slate-300">필요 수량 (Required Qty)</label>
+                                <span id="qtyVal" class="text-xs text-brand-400 font-bold">4,000 개</span>
+                            </div>
+                            <input type="range" id="reqQty" min="500" max="10000" step="500" value="4000" oninput="document.getElementById('qtyVal').innerText = Number(this.value).toLocaleString() + ' 개'" class="w-full accent-brand-500 bg-slate-800 rounded-lg cursor-pointer">
+                        </div>
+
+                        <!-- Weight Preference -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1.5">다목적 최적화 가중치 (Weights)</label>
+                            <select id="weightPref" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500">
+                                <option value="balanced">균형 추천 (거리 40% / 신뢰도 40% / 분할패널티 20%)</option>
+                                <option value="eco">탄소절감 최우선 (물류거리 감축 극대화)</option>
+                                <option value="reliable">품질/납기 신뢰도 최우선 (EMA 고득점)</option>
                             </select>
                         </div>
-                        <div class="form-group">
-                            <label>요구 필요 수량 (개)</label>
-                            <input type="number" id="reqQty" value="4000" min="100">
+
+                        <!-- Advanced Constraints -->
+                        <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800 space-y-2">
+                            <span class="text-xs font-semibold text-slate-400 block mb-1">알고리즘 정책 적용</span>
+                            <label class="flex items-center space-x-2 text-xs text-slate-300 cursor-pointer">
+                                <input type="checkbox" id="allowSplit" checked class="rounded border-slate-700 text-brand-600 focus:ring-brand-500">
+                                <span>분할 납품 조합 (Split-Delivery) 허용</span>
+                            </label>
+                            <label class="flex items-center space-x-2 text-xs text-slate-300 cursor-pointer">
+                                <input type="checkbox" id="applyColdStart" checked class="rounded border-slate-700 text-brand-600 focus:ring-brand-500">
+                                <span>신규 가입 기업 Cold-Start 부스팅 (+5점)</span>
+                            </label>
                         </div>
-                        <div class="form-group">
-                            <label>AI 매칭 가중치 알고리즘</label>
-                            <select id="weightPref">
-                                <option value="balanced">균형 모드 (물류 40% / 신뢰도 40% / 패널티 20%)</option>
-                                <option value="distance">물류/탄소 절감 최우선 (최단거리)</option>
-                                <option value="reliability">품질/납기 신뢰도 최우선</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn-primary">AI 매칭 파이프라인 실행 🚀</button>
+
+                        <button type="submit" class="w-full bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-500 hover:to-indigo-500 text-white font-bold py-3 rounded-xl transition-all shadow-lg shadow-brand-600/30 flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-bolt"></i>
+                            <span>AI 동적 최적화 매칭 실행</span>
+                        </button>
                     </form>
                 </div>
 
-                <div class="card" style="margin-top: 16px;">
-                    <div class="card-title" style="font-size:0.95rem;">🛡️ 보안 & 감사 로깅 (Audit Log)</div>
-                    <div class="sec-panel" id="secConsole">
-                        <div class="sec-line">[<span>SYSTEM</span>] 보안 통신 채널 세션 수립</div>
-                        <div class="sec-line">[<span>RBAC</span>] 기업 사용자 접근 권한 검증 완료</div>
+                <!-- Database Metrics Overview Card -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">창원 산단 가용 실시간 노드</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
+                            <div class="text-xs text-slate-400">등록 공급 공장</div>
+                            <div class="text-lg font-bold text-white mt-1">5,842 개사</div>
+                        </div>
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800/80">
+                            <div class="text-xs text-slate-400">가용 부품 재고</div>
+                            <div class="text-lg font-bold text-brand-400 mt-1">142,900 EA</div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Right: Pipeline & Results -->
-            <div>
-                <!-- Pipeline Status -->
-                <div class="pipeline-status">
-                    <div class="step active">
-                        <span class="step-num">Step 1</span>
-                        SQL 하드 필터링<br><b>규격 코드 대조</b>
+            <!-- Right Panel: Matching Pipeline Animation & Results -->
+            <div class="lg:col-span-8 space-y-6">
+                <!-- 3-Step Pipeline Status Flow -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-sm font-bold text-slate-200">3단계 하이브리드 매칭 파이프라인 연산 상태</h3>
+                        <span id="pipelineTimer" class="text-xs font-mono text-slate-400">Standby</span>
                     </div>
-                    <div class="step active">
-                        <span class="step-num">Step 2</span>
-                        Knapsack Matrix<br><b>분할 조합 생성</b>
-                    </div>
-                    <div class="step active">
-                        <span class="step-num">Step 3</span>
-                        Priority Queue<br><b>Max-Heap Top 3 추출</b>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <!-- Step 1 -->
+                        <div id="step-node-1" class="p-3.5 rounded-xl border border-slate-800 bg-slate-950 transition-all">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-xs font-bold text-slate-400">1단계: SQL Search</span>
+                                <span class="step-badge text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full">대기</span>
+                            </div>
+                            <p class="text-xs text-slate-300 font-medium">하드 필터링</p>
+                            <p class="text-[11px] text-slate-500 mt-1">규격 코드(part_no) 보유 공장 1차 고속 스크리닝</p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div id="step-node-2" class="p-3.5 rounded-xl border border-slate-800 bg-slate-950 transition-all">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-xs font-bold text-slate-400">2단계: Matrix Gen</span>
+                                <span class="step-badge text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full">대기</span>
+                            </div>
+                            <p class="text-xs text-slate-300 font-medium">배낭 문제 (Knapsack)</p>
+                            <p class="text-[11px] text-slate-500 mt-1">단일/복수 분할 납품 조합(Split Delivery) 노드 생성</p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div id="step-node-3" class="p-3.5 rounded-xl border border-slate-800 bg-slate-950 transition-all">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-xs font-bold text-slate-400">3단계: Priority Queue</span>
+                                <span class="step-badge text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full">대기</span>
+                            </div>
+                            <p class="text-xs text-slate-300 font-medium">Max-Heap Top 3</p>
+                            <p class="text-[11px] text-slate-500 mt-1">거리, 신뢰도(EMA), C패널티 종합 Cost 연산</p>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Match Results -->
-                <div class="card">
-                    <div class="card-title">
-                        <span>🏆 AI 추천 최적 공급망 조합 (Top 3)</span>
-                        <span style="font-size: 0.8rem; font-weight: normal; color: var(--text-muted);">창원 산단 B2B 실시간 연동</span>
+                <!-- Match Results Cards Container -->
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-slate-100 text-base flex items-center space-x-2">
+                            <i class="fa-solid fa-award text-amber-400"></i>
+                            <span>최적 공급망 추천 조합 (Top 3 Cards)</span>
+                        </h3>
+                        <span class="text-xs text-slate-400">Max-Heap O(N log 3) 정렬 적용</span>
                     </div>
-                    <div class="match-grid" id="matchResults">
-                        <!-- Dynamic Match Cards JS Insertion -->
+
+                    <div id="matchCardsContainer" class="space-y-4">
+                        <!-- Initial Placeholder or Dynamic Output -->
+                        <div class="bg-slate-900 border border-slate-800 border-dashed rounded-2xl p-12 text-center text-slate-500">
+                            <i class="fa-solid fa-microchip text-4xl mb-3 text-slate-700"></i>
+                            <p class="text-sm font-medium">좌측 폼에서 부품 수량 설정 후 [AI 동적 최적화 매칭 실행] 버튼을 눌러주세요.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: SURPLUS RESOURCE MARKETPLACE -->
+        <div id="view-marketplace" class="tab-view hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+                            <i class="fa-solid fa-boxes-stacked text-brand-400"></i>
+                            <span>창원 산단 잉여 자재 & 유휴 설비 마켓</span>
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">방치된 악성 재고의 현금화 및 유휴 가공 설비 공동 매칭 플랫폼</p>
+                    </div>
+                    <button onclick="openRegisterModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs px-4 py-2.5 rounded-xl transition flex items-center space-x-2 self-start md:self-auto">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>잉여 자재/설비 등록</span>
+                    </button>
+                </div>
+
+                <!-- Search & Filters -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-3 mb-6">
+                    <div class="md:col-span-2 relative">
+                        <input type="text" id="marketSearch" onkeyup="filterMarketplace()" placeholder="부품명, 기업명, 재질 검색..." class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-500 pl-9">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+                    </div>
+                    <select id="marketCategory" onchange="filterMarketplace()" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200">
+                        <option value="all">전체 카테고리</option>
+                        <option value="metal">금속가공/원자재</option>
+                        <option value="bolt">볼트/결합재</option>
+                        <option value="machinery">유휴 가공설비</option>
+                    </select>
+                    <select id="marketSort" onchange="filterMarketplace()" class="bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200">
+                        <option value="newest">최신 등록순</option>
+                        <option value="discount">할인율 높은순</option>
+                        <option value="closest">거리 가까운순</option>
+                    </select>
+                </div>
+
+                <!-- Marketplace Item Grid -->
+                <div id="marketGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Dynamic Marketplace Items generated via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: B2B SECURITY CONSOLE -->
+        <div id="view-security" class="tab-view hidden grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-7 space-y-6">
+                <!-- Security Architecture Overview -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                    <h2 class="text-base font-bold text-white mb-4 flex items-center space-x-2">
+                        <i class="fa-solid fa-user-shield text-emerald-400"></i>
+                        <span>기업 정보 보안 & 데이터 마스킹 설계</span>
+                    </h2>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800">
+                            <div class="text-xs text-emerald-400 font-semibold mb-1"><i class="fa-solid fa-lock me-1"></i> HTTPS / TLS 1.3</div>
+                            <p class="text-xs text-slate-400">전송 구간 데이터 완전 암호화 및 OWASP Top 10 웹 취약점 인젝션 방어</p>
+                        </div>
+                        <div class="p-4 bg-slate-950 rounded-xl border border-slate-800">
+                            <div class="text-xs text-brand-400 font-semibold mb-1"><i class="fa-solid fa-user-lock me-1"></i> RBAC 권한 분리</div>
+                            <p class="text-xs text-slate-400">거래 체결 전 단게별 마스킹 (기업명, 상세 좌표 보호 및 안심번호 제공)</p>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-3">안심 B2B 거래 진행 단계 시뮬레이션</h3>
+                    <div class="space-y-3 text-xs">
+                        <div class="flex items-center space-x-3 p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold">1</span>
+                            <div>
+                                <span class="font-semibold text-white">익명 매칭 탐색:</span>
+                                <span class="text-slate-400"> 상대 기업 고유코드(C0001) 및 거리/신뢰도 지수만 노출</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3 p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="w-6 h-6 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold">2</span>
+                            <div>
+                                <span class="font-semibold text-white">계약 의사 타진:</span>
+                                <span class="text-slate-400"> 가상 안심번호(0507-XXXX-XXXX) 및 보안 채널 발급</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-3 p-3 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">3</span>
+                            <div>
+                                <span class="font-semibold text-white">ERP 자동 매칭 수발주:</span>
+                                <span class="text-slate-400"> 전자 서명 암호화 및 계약 체결 후 실제 실명 개방</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Terminal Audit Log Console -->
+            <div class="lg:col-span-5 space-y-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 flex flex-col h-full min-h-[420px]">
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-3">
+                        <div class="flex items-center space-x-2">
+                            <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+                            <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                            <span class="text-xs font-mono text-slate-400 ms-2">Security Audit Terminal</span>
+                        </div>
+                        <button onclick="clearSecurityConsole()" class="text-[11px] text-slate-500 hover:text-slate-300">Clear</button>
+                    </div>
+
+                    <div id="terminalConsole" class="flex-1 bg-slate-950 rounded-xl p-4 font-mono text-xs text-emerald-400 overflow-y-auto space-y-2 border border-slate-800/80 max-h-[380px]">
+                        <div class="text-slate-500">[SYSTEM] Secure B2B Channel Initialization...</div>
+                        <div class="text-slate-500">[SYSTEM] Database Encryption Key: AES-256-GCM</div>
+                        <div class="text-brand-400">[RBAC] Role Verified: Sarim Safeguard Operator</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: ESG & CARBON CREDIT REPORT -->
+        <div id="view-esg" class="tab-view hidden space-y-6">
+            <!-- Header Metrics -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
+                    <div class="text-xs text-slate-400 font-medium">산단 내 누적 탄소 감축량</div>
+                    <div class="text-2xl font-black text-emerald-400 mt-2">1,248.5 <span class="text-xs font-normal text-slate-400">tCO2e</span></div>
+                    <div class="text-[11px] text-emerald-500 mt-1"><i class="fa-solid fa-arrow-trend-up"></i> 전월 대비 18.4% 증가</div>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
+                    <div class="text-xs text-slate-400 font-medium">인정 탄소 배출권 실적</div>
+                    <div class="text-2xl font-black text-brand-400 mt-2">₩ 37.4M <span class="text-xs font-normal text-slate-400">환산액</span></div>
+                    <div class="text-[11px] text-slate-400 mt-1">창원시 지자체 정책 연계</div>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
+                    <div class="text-xs text-slate-400 font-medium">절감 물류 이동 거리</div>
+                    <div class="text-2xl font-black text-white mt-2">42,100 <span class="text-xs font-normal text-slate-400">km</span></div>
+                    <div class="text-[11px] text-slate-400 mt-1">관외 유출 운송 최소화</div>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl">
+                    <div class="text-xs text-slate-400 font-medium">공동 물류 차량 쉐어링</div>
+                    <div class="text-2xl font-black text-indigo-400 mt-2">184 <span class="text-xs font-normal text-slate-400">건 성공</span></div>
+                    <div class="text-[11px] text-indigo-400 mt-1">산단 내부 순환 라우팅</div>
+                </div>
+            </div>
+
+            <!-- Chart Analysis Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <!-- Monthly Carbon Savings Chart -->
+                <div class="lg:col-span-8 bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                    <h3 class="text-sm font-bold text-white mb-4 flex items-center space-x-2">
+                        <i class="fa-solid fa-chart-line text-emerald-400"></i>
+                        <span>창원 산단 자원순환 기반 온실가스 감축 추이</span>
+                    </h3>
+                    <div class="h-64">
+                        <canvas id="esgChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Policy & Shared Logistics Status -->
+                <div class="lg:col-span-4 bg-slate-900 border border-slate-800 rounded-2xl p-6 space-y-4">
+                    <h3 class="text-sm font-bold text-white flex items-center space-x-2">
+                        <i class="fa-solid fa-truck-ramp-box text-brand-400"></i>
+                        <span>공동 물류 라우팅 (Shared Logistics)</span>
+                    </h3>
+                    <p class="text-xs text-slate-400">매칭 기업 간 위·경도 좌표 데이터를 기반으로 인근 공장 차량 쉐어링을 매칭합니다.</p>
+                    
+                    <div class="space-y-3 pt-2">
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between items-center">
+                            <div>
+                                <div class="text-xs font-semibold text-white">성산구 ↔ 의창구 라우트</div>
+                                <div class="text-[11px] text-slate-500">배송차량 2대 통합 쉐어링</div>
+                            </div>
+                            <span class="text-xs text-emerald-400 font-bold">-4.2kg CO2</span>
+                        </div>
+                        <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex justify-between items-center">
+                            <div>
+                                <div class="text-xs font-semibold text-white">마산회원구 ↔ 봉암공단</div>
+                                <div class="text-[11px] text-slate-500">오후 2시 정기 회동 라우팅</div>
+                            </div>
+                            <span class="text-xs text-emerald-400 font-bold">-6.8kg CO2</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- MODAL 1: SECURE B2B CONTACT MODAL -->
+    <div id="contactModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <h3 class="text-base font-bold text-white flex items-center space-x-2">
+                    <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+                    <span>B2B 안심 거래 및 수발주 연결</span>
+                </h3>
+                <button onclick="closeContactModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="space-y-3 text-xs">
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
+                    <div class="text-slate-400">선택된 공급망 노드</div>
+                    <div id="modalSupplierName" class="font-bold text-brand-400 text-sm">(주)창원정밀 외 분할 조합</div>
+                </div>
+
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
+                    <div class="text-slate-400">발급된 안심 가상 번호</div>
+                    <div class="font-mono text-emerald-400 font-bold text-base">0507-8429-1102</div>
+                </div>
+
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
+                    <div class="text-slate-400 font-semibold">ERP 연동 자동 수발주 프로세스</div>
+                    <div class="flex items-center space-x-2 text-slate-300">
+                        <i class="fa-solid fa-check text-emerald-400"></i>
+                        <span>전자 서명 기반 암호화 수발주서 자동 생성</span>
+                    </div>
+                    <div class="flex items-center space-x-2 text-slate-300">
+                        <i class="fa-solid fa-check text-emerald-400"></i>
+                        <span>창원시 분할 협업 보조금 신청 연동</span>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="executeERPTransaction()" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-emerald-600/30">
+                전자 수발주 계약 체결 및 ERP 전송
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL 2: REGISTER SURPLUS ITEM MODAL -->
+    <div id="registerModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <h3 class="text-base font-bold text-white">잉여 자재 / 부품 등록</h3>
+                <button onclick="closeRegisterModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <form onsubmit="event.preventDefault(); submitSurplusItem();" class="space-y-3 text-xs">
+                <div>
+                    <label class="block text-slate-300 mb-1">품목명 / 부품명</label>
+                    <input type="text" id="regTitle" required placeholder="예: KS-SUS304 잔여 판재 10T" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-slate-300 mb-1">카테고리</label>
+                        <select id="regCategory" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100">
+                            <option value="metal">금속가공/원자재</option>
+                            <option value="bolt">볼트/결합재</option>
+                            <option value="machinery">유휴 가공설비</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-slate-300 mb-1">가용 수량</label>
+                        <input type="number" id="regQty" required placeholder="1000" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-slate-300 mb-1">정상가 대비 할인율 (%)</label>
+                    <input type="number" id="regDiscount" value="30" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-slate-100">
+                </div>
+                <button type="submit" class="w-full bg-brand-600 hover:bg-brand-500 text-white font-bold py-2.5 rounded-xl transition mt-2">
+                    플랫폼에 실시간 등록
+                </button>
+            </form>
+        </div>
+    </div>
+
     <script>
+        // --- DATA STATE ---
+        let marketplaceItems = [
+            { id: 1, title: "KS-SUS304 잔여 판재 2T", category: "metal", comp: "(주)마산금속", qty: "1,500 EA", price: "₩ 14,000 / kg", discount: "25% OFF", dist: "1.4 km", desc: "공정 변경으로 발생한 S급 유휴 잔여 원자재" },
+            { id: 2, title: "M8 고강도 볼트 세트", category: "bolt", comp: "창원정밀공업", qty: "5,000 EA", price: "₩ 120 / EA", discount: "40% OFF", dist: "2.8 km", desc: "KS 규격 검서 완비 방진 코팅 볼트" },
+            { id: 3, title: "5축 CNC 유휴 설비 가동시간", category: "machinery", comp: "성산테크", qty: "주 20 시간", price: "₩ 45,000 / hr", discount: "15% OFF", dist: "0.8 km", desc: "야간 시간대 유휴 가공 설비 공동 매칭" },
+        ];
+
+        let esgChartInstance = null;
+
+        // --- INITIALIZATION ---
         window.onload = function() {
-            runMatchingPipeline();
+            triggerAIMatching();
+            renderMarketplace();
+            initESGChart();
+            logConsole("SYSTEM", "Sarim Safeguard Web Application Ready.");
         };
 
-        document.getElementById('matchForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            runMatchingPipeline();
-        });
+        // --- TAB NAVIGATION ---
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-brand-500', 'text-brand-400');
+                btn.classList.add('border-transparent', 'text-slate-400');
+            });
+            document.querySelectorAll('.tab-view').forEach(view => view.classList.add('hidden'));
 
-        function logSecurity(msg) {
-            const consoleEl = document.getElementById('secConsole');
-            const time = new Date().toLocaleTimeString();
-            consoleEl.innerHTML += `<div class="sec-line">[<span>${time}</span>] ${msg}</div>`;
-            consoleEl.scrollTop = consoleEl.scrollHeight;
+            const activeBtn = document.getElementById(`tab-${tabId}`);
+            activeBtn.classList.add('active', 'border-brand-500', 'text-brand-400');
+            activeBtn.classList.remove('border-transparent', 'text-slate-400');
+
+            document.getElementById(`view-${tabId}`).classList.remove('hidden');
+
+            if (tabId === 'esg' && esgChartInstance) {
+                setTimeout(() => esgChartInstance.resize(), 100);
+            }
         }
 
-        function runMatchingPipeline() {
-            const reqQty = parseInt(document.getElementById('reqQty').value);
+        // --- AI 3-STEP MATCHING PIPELINE LOGIC ---
+        function triggerAIMatching() {
             const partNo = document.getElementById('partNo').value;
-            
-            logSecurity(`SQL Search: ${partNo} 보유 공장 1차 필터링`);
-            logSecurity(`Knapsack Matrix: 수량 (${reqQty}개) 만족 조합 생성`);
-            logSecurity(`Priority Queue: Max-Heap 정렬 연산 완료`);
+            const reqQty = parseInt(document.getElementById('reqQty').value);
+            const pref = document.getElementById('weightPref').value;
+            const allowSplit = document.getElementById('allowSplit').checked;
+            const applyColdStart = document.getElementById('applyColdStart').checked;
 
-            const combinations = [
+            const timer = document.getElementById('pipelineTimer');
+            timer.innerText = "Running Optimization...";
+            timer.classList.add("text-brand-400");
+
+            // Reset Pipeline Step Badges
+            updateStepNode(1, "running", "Processing SQL...");
+            updateStepNode(2, "waiting", "Pending");
+            updateStepNode(3, "waiting", "Pending");
+
+            logConsole("SQL_SEARCH", `SELECT * FROM Component_Stock WHERE part_no = '${partNo}' AND avail_qty > 0;`);
+
+            setTimeout(() => {
+                updateStepNode(1, "done", "Completed (4 Nodes)");
+                updateStepNode(2, "running", "Solving Knapsack...");
+                logConsole("KNAPSACK", `Generating Combinations for Target Qty: ${reqQty} EA...`);
+
+                setTimeout(() => {
+                    updateStepNode(2, "done", "Combinations Built");
+                    updateStepNode(3, "running", "Max-Heap Sorting...");
+                    logConsole("PRIORITY_QUEUE", `Score_j = w1*(1/dist) + w2*(Reliability) - w3*(Penalty_C)`);
+
+                    setTimeout(() => {
+                        updateStepNode(3, "done", "Top 3 Extracted");
+                        timer.innerText = "Execution Time: 0.042s";
+                        timer.classList.remove("text-brand-400");
+                        
+                        renderMatchResults(partNo, reqQty, pref, allowSplit, applyColdStart);
+                    }, 300);
+                }, 300);
+            }, 300);
+        }
+
+        function updateStepNode(stepNum, status, text) {
+            const node = document.getElementById(`step-node-${stepNum}`);
+            const badge = node.querySelector('.step-badge');
+            
+            if (status === "running") {
+                node.className = "p-3.5 rounded-xl border border-brand-500/80 bg-brand-950/30 transition-all";
+                badge.className = "step-badge text-[10px] bg-brand-500/20 text-brand-400 px-2 py-0.5 rounded-full animate-pulse";
+                badge.innerText = text;
+            } else if (status === "done") {
+                node.className = "p-3.5 rounded-xl border border-emerald-500/80 bg-emerald-950/20 transition-all";
+                badge.className = "step-badge text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full";
+                badge.innerText = text;
+            } else {
+                node.className = "p-3.5 rounded-xl border border-slate-800 bg-slate-950 transition-all";
+                badge.className = "step-badge text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded-full";
+                badge.innerText = text;
+            }
+        }
+
+        function renderMatchResults(partNo, reqQty, pref, allowSplit, applyColdStart) {
+            const container = document.getElementById('matchCardsContainer');
+            container.innerHTML = '';
+
+            // Generate Top 3 Scenarios
+            const scenarios = [
                 {
                     rank: 1,
-                    type: "단일 공급 매칭",
-                    score: 94.2,
-                    suppliers: [{ name: "(주)창원정밀", qty: reqQty, reliability: 95, dist: "1.2 km", percent: 100 }],
-                    co2Cut: "12.4 kg CO2e 절감",
-                    carbonCredit: "인증 지원 대상"
+                    title: "단일 공장 완전 충족 최적 매칭",
+                    score: 95.4,
+                    suppliers: [
+                        { name: "(주)창원정밀", qty: reqQty, dist: "1.2 km", rel: 96, cold: false }
+                    ],
+                    co2Cut: "14.2 kg CO2",
+                    leadTime: "24시간 이내",
+                    policyNotice: "창원 산단 단일 거래 탄소배출권 100% 인정"
                 },
                 {
                     rank: 2,
-                    type: "최적 분할 납품 (Split-Delivery)",
-                    score: 89.8,
+                    title: "분할 납품 최적 조합 (Split-Delivery Combination)",
+                    score: 91.8,
                     suppliers: [
-                        { name: "성산테크 (신규)", qty: Math.min(2500, reqQty), reliability: "85(+5)", dist: "2.1 km", percent: 62.5 },
-                        { name: "마산금속공업", qty: Math.max(0, reqQty - 2500), reliability: 88, dist: "3.5 km", percent: 37.5 }
+                        { name: "성산테크 (신규기업)", qty: Math.min(2500, reqQty), dist: "0.8 km", rel: "85 (+5)", cold: true },
+                        { name: "진해메카텍", qty: Math.max(0, reqQty - 2500), dist: "3.1 km", rel: 88, cold: false }
                     ],
-                    co2Cut: "8.1 kg CO2e 절감",
-                    carbonCredit: "분할 보조금 연계"
+                    co2Cut: "18.6 kg CO2",
+                    leadTime: "12시간 이내 분할 배송",
+                    policyNotice: "창원시 분할 협업 보조금 및 Cold-Start 지원 대상"
                 },
                 {
                     rank: 3,
-                    type: "복수 분할 납품 조합",
-                    score: 83.5,
+                    title: "거리 감축 우선 분할 조합",
+                    score: 86.2,
                     suppliers: [
-                        { name: "진해메카텍", qty: 3000, reliability: 82, dist: "5.8 km", percent: 75 },
-                        { name: "마산금속공업", qty: Math.max(0, reqQty - 3000), reliability: 88, dist: "3.5 km", percent: 25 }
+                        { name: "마산금속공업", qty: Math.min(1500, reqQty), dist: "2.5 km", rel: 84, cold: false },
+                        { name: "(주)창원정밀", qty: Math.max(0, reqQty - 1500), dist: "1.2 km", rel: 96, cold: false }
                     ],
-                    co2Cut: "5.2 kg CO2e 절감",
-                    carbonCredit: "일반 지원 대상"
+                    co2Cut: "11.0 kg CO2",
+                    leadTime: "36시간 이내",
+                    policyNotice: "공동 물류 쉐어링 라우트 자동 연계"
                 }
             ];
 
-            renderResults(combinations);
-        }
-
-        function renderResults(list) {
-            const container = document.getElementById('matchResults');
-            container.innerHTML = '';
-
-            list.forEach(item => {
-                let suppliersHTML = item.suppliers.map(s => 
-                    `<div class="supplier-item">
-                        <span><b>${s.name}</b> (${s.qty}개)</span>
-                        <span style="color:#64748b;">신뢰도:${s.reliability} | ${s.dist}</span>
-                     </div>`
-                ).join('');
-
-                let progressHTML = '';
-                if(item.suppliers.length === 1) {
-                    progressHTML = `<div class="progress-container"><div class="progress-bar bg-p1" style="width:100%"></div></div>`;
-                } else {
-                    progressHTML = `<div class="progress-container">
-                        <div class="progress-bar bg-p1" style="width:${item.suppliers[0].percent}%"></div>
-                        <div class="progress-bar bg-p2" style="width:${item.suppliers[1].percent}%"></div>
-                    </div>`;
-                }
+            scenarios.forEach(item => {
+                let supplierListHTML = item.suppliers.map(s => `
+                    <div class="flex items-center justify-between p-2.5 bg-slate-950 rounded-xl border border-slate-800">
+                        <div class="flex items-center space-x-2">
+                            <i class="fa-solid fa-industry text-brand-400 text-xs"></i>
+                            <span class="font-bold text-white text-xs">${s.name}</span>
+                            ${s.cold ? '<span class="text-[10px] bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 px-1.5 py-0.2 rounded">Cold-Start Boost</span>' : ''}
+                        </div>
+                        <div class="text-right text-xs">
+                            <span class="text-brand-400 font-bold me-2">${s.qty.toLocaleString()} EA</span>
+                            <span class="text-slate-400 text-[11px]">(거리: ${s.dist} | 신뢰도: ${s.rel}점)</span>
+                        </div>
+                    </div>
+                `).join('');
 
                 const cardHTML = `
-                    <div class="match-card ${item.rank === 1 ? 'top1' : ''}">
-                        <span class="badge-rank">Top ${item.rank}</span>
-                        <div>
-                            <div class="card-header-type">${item.type}</div>
-                            <div class="score-tag">⚡ 종합 매칭 점수: ${item.score}점</div>
-                            
-                            ${progressHTML}
-
-                            <div class="supplier-list">
-                                ${suppliersHTML}
+                    <div class="bg-slate-900 border ${item.rank === 1 ? 'border-brand-500/80 shadow-brand-500/10' : 'border-slate-800'} rounded-2xl p-5 shadow-xl transition hover:border-slate-700 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-8 h-8 rounded-xl ${item.rank === 1 ? 'bg-brand-600 text-white' : 'bg-slate-800 text-slate-300'} flex items-center justify-center font-extrabold text-sm">
+                                    #${item.rank}
+                                </span>
+                                <div>
+                                    <h4 class="font-bold text-white text-sm">${item.title}</h4>
+                                    <span class="text-xs text-slate-400">${item.policyNotice}</span>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-xs text-slate-400">종합 매칭 Score</div>
+                                <div class="text-xl font-black text-brand-400">${item.score} <span class="text-xs text-slate-400">/ 100</span></div>
                             </div>
                         </div>
 
-                        <div>
-                            <div class="eco-box">
-                                🌱 <b>환경 효과:</b> ${item.co2Cut}<br>
-                                🏛️ <b>창원시 정책:</b> ${item.carbonCredit}
-                            </div>
+                        <div class="space-y-2">
+                            ${supplierListHTML}
+                        </div>
 
-                            <button class="action-btn" onclick="openSecureContact('${item.type}', '${item.score}')">
-                                🤝 안심 거래 / ERP 자동 계약
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-1 text-xs">
+                            <div class="bg-slate-950 p-2 rounded-lg border border-slate-800/80">
+                                <span class="text-slate-400 block text-[10px]">🌱 온실가스 감축</span>
+                                <span class="font-bold text-emerald-400">${item.co2Cut}</span>
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded-lg border border-slate-800/80">
+                                <span class="text-slate-400 block text-[10px]">⏱️ 예상 리드타임</span>
+                                <span class="font-bold text-white">${item.leadTime}</span>
+                            </div>
+                            <div class="bg-slate-950 p-2 rounded-lg border border-slate-800/80 col-span-2 sm:col-span-1">
+                                <span class="text-slate-400 block text-[10px]">🏛️ 창원시 지원</span>
+                                <span class="font-bold text-indigo-400">탄소배출권 환산</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-end space-x-2 pt-2 border-t border-slate-800">
+                            <button onclick="openContactModal('${item.title}')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition flex items-center space-x-2">
+                                <i class="fa-solid fa-file-contract"></i>
+                                <span>안심 거래 & ERP 자동 수발주 요청</span>
                             </button>
                         </div>
                     </div>
@@ -312,9 +729,199 @@
             });
         }
 
-        function openSecureContact(type, score) {
-            logSecurity(`[B2B 통신] 보안 가상 채널 생성 완료`);
-            alert(`[안심 거래 매칭 요청]\n\n매칭 유형: ${type}\n매칭 점수: ${score}점\n\n보안 가상 번호 및 B2B ERP 연결 채널이 수립되었습니다.`);
+        // --- MARKETPLACE LOGIC ---
+        function renderMarketplace() {
+            const grid = document.getElementById('marketGrid');
+            grid.innerHTML = '';
+
+            marketplaceItems.forEach(item => {
+                const card = `
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 flex flex-col justify-between space-y-3">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-[10px] bg-brand-500/20 text-brand-400 border border-brand-500/30 px-2 py-0.5 rounded-full font-semibold">${item.category.toUpperCase()}</span>
+                                <span class="text-xs text-emerald-400 font-bold">${item.discount}</span>
+                            </div>
+                            <h4 class="font-bold text-white text-sm">${item.title}</h4>
+                            <p class="text-xs text-slate-400 mt-1">${item.desc}</p>
+                        </div>
+
+                        <div class="space-y-2 border-t border-slate-800/80 pt-3">
+                            <div class="flex justify-between text-xs">
+                                <span class="text-slate-400">보유 수량</span>
+                                <span class="font-bold text-white">${item.qty}</span>
+                            </div>
+                            <div class="flex justify-between text-xs">
+                                <span class="text-slate-400">희망 단가</span>
+                                <span class="font-bold text-brand-400">${item.price}</span>
+                            </div>
+                            <div class="flex justify-between text-xs">
+                                <span class="text-slate-400">위치</span>
+                                <span class="text-slate-300"><i class="fa-solid fa-location-dot text-rose-400 me-1"></i>${item.dist}</span>
+                            </div>
+                            <button onclick="openContactModal('${item.title}')" class="w-full mt-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs py-2 rounded-lg transition">
+                                매수 문의 / 안심 연락
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        function filterMarketplace() {
+            const query = document.getElementById('marketSearch').value.toLowerCase();
+            const cat = document.getElementById('marketCategory').value;
+
+            const filtered = marketplaceItems.filter(item => {
+                const matchesQuery = item.title.toLowerCase().includes(query) || item.desc.toLowerCase().includes(query);
+                const matchesCat = cat === 'all' || item.category === cat;
+                return matchesQuery && matchesCat;
+            });
+
+            const grid = document.getElementById('marketGrid');
+            grid.innerHTML = '';
+            
+            if(filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-8 text-slate-500 text-xs">검색 결과가 없습니다.</div>`;
+                return;
+            }
+
+            filtered.forEach(item => {
+                // Re-render matching items
+                const card = `
+                    <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 flex flex-col justify-between space-y-3">
+                        <div>
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-[10px] bg-brand-500/20 text-brand-400 border border-brand-500/30 px-2 py-0.5 rounded-full font-semibold">${item.category.toUpperCase()}</span>
+                                <span class="text-xs text-emerald-400 font-bold">${item.discount}</span>
+                            </div>
+                            <h4 class="font-bold text-white text-sm">${item.title}</h4>
+                            <p class="text-xs text-slate-400 mt-1">${item.desc}</p>
+                        </div>
+
+                        <div class="space-y-2 border-t border-slate-800/80 pt-3">
+                            <div class="flex justify-between text-xs">
+                                <span class="text-slate-400">보유 수량</span>
+                                <span class="font-bold text-white">${item.qty}</span>
+                            </div>
+                            <div class="flex justify-between text-xs">
+                                <span class="text-slate-400">희망 단가</span>
+                                <span class="font-bold text-brand-400">${item.price}</span>
+                            </div>
+                            <button onclick="openContactModal('${item.title}')" class="w-full mt-2 bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold text-xs py-2 rounded-lg transition">
+                                매수 문의 / 안심 연락
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+            });
+        }
+
+        // --- MODAL CONTROLS ---
+        function openContactModal(title) {
+            document.getElementById('modalSupplierName').innerText = title;
+            document.getElementById('contactModal').classList.remove('hidden');
+            logConsole("SECURITY", `Generated Masked Virtual Contact Channel for ${title}`);
+        }
+
+        function closeContactModal() {
+            document.getElementById('contactModal').classList.add('hidden');
+        }
+
+        function executeERPTransaction() {
+            closeContactModal();
+            logConsole("ERP_TRANSACTION", "Automated Contract Generated. Sent via Encrypted Channel.");
+            alert("전자 수발주 계약이 성공적으로 체결되었습니다!\n창원시 스마트 그린 산단 인센티브 등록이 완료되었습니다.");
+        }
+
+        function openRegisterModal() {
+            document.getElementById('registerModal').classList.remove('hidden');
+        }
+
+        function closeRegisterModal() {
+            document.getElementById('registerModal').classList.add('hidden');
+        }
+
+        function submitSurplusItem() {
+            const title = document.getElementById('regTitle').value;
+            const category = document.getElementById('regCategory').value;
+            const qty = document.getElementById('regQty').value + " EA";
+            const discount = document.getElementById('regDiscount').value + "% OFF";
+
+            marketplaceItems.unshift({
+                id: Date.now(),
+                title: title,
+                category: category,
+                comp: "신규 등록 기업",
+                qty: qty,
+                price: "AI 적정가 산출 완료",
+                discount: discount,
+                dist: "0.5 km",
+                desc: "플랫폼 실시간 신규 등록 완료"
+            });
+
+            closeRegisterModal();
+            renderMarketplace();
+            logConsole("MARKETPLACE", `New surplus item registered: ${title}`);
+        }
+
+        // --- SECURITY LOG CONSOLE ---
+        function logConsole(tag, msg) {
+            const consoleEl = document.getElementById('terminalConsole');
+            const time = new Date().toLocaleTimeString();
+            const line = document.createElement('div');
+            line.className = "text-xs";
+            line.innerHTML = `<span class="text-slate-500">[${time}]</span> <span class="text-brand-400 font-bold">[${tag}]</span> ${msg}`;
+            consoleEl.appendChild(line);
+            consoleEl.scrollTop = consoleEl.scrollHeight;
+        }
+
+        function clearSecurityConsole() {
+            document.getElementById('terminalConsole').innerHTML = '<div class="text-slate-500">[SYSTEM] Terminal Cleared.</div>';
+        }
+
+        // --- ESG CHART INITIALIZATION ---
+        function initESGChart() {
+            const ctx = document.getElementById('esgChart').getContext('2d');
+            esgChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월'],
+                    datasets: [
+                        {
+                            label: '온실가스 절감량 (tCO2e)',
+                            data: [120, 190, 300, 500, 620, 810, 950, 1100, 1248.5],
+                            borderColor: '#10b981',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: '물류거리 절감 지수 (천 km)',
+                            data: [4, 8, 12, 18, 24, 30, 35, 39, 42.1],
+                            borderColor: '#3b82f6',
+                            borderDash: [5, 5],
+                            fill: false,
+                            tension: 0.2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#94a3b8', font: { size: 11 } }
+                        }
+                    },
+                    scales: {
+                        x: { grid: { color: '#1e293b' }, ticks: { color: '#64748b' } },
+                        y: { grid: { color: '#1e293b' }, ticks: { color: '#64748b' } }
+                    }
+                }
+            });
         }
     </script>
 </body>
